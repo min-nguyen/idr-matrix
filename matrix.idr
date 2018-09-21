@@ -26,17 +26,9 @@ project (MultMat {j} {j'} w k nextMatrix)
 project (BaseMat {j} {j'})
  = BaseMatF
 
-algebra : {j : Nat} -> {j' : Nat} ->  
-          MatrixF m n j k (Matrix n j j' k) ->
-          Matrix n j j' k
-algebra {j} {j'} (MultMatF weights k innerMatrix) 
-  = innerMatrix
-algebra {j} {j'} BaseMatF
-  = BaseMat {j = j'} {j' = j'}
-
 cata : ({m : Nat} -> {n : Nat} -> {j : Nat} -> {mat : Matrix m n j k} -> (MatrixF m n j k (Matrix n j (getNatj' mat) k) -> Matrix n j (getNatj' mat) k)) -> 
-          (x : Matrix m n j k) -> 
-          Matrix n j (getNatj' x) k
+        (x : Matrix m n j k) -> 
+        Matrix n j (getNatj' x) k
 cata alg = c 
     where c x = alg . map (cata alg) . project $ x
 
