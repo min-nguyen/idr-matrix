@@ -34,9 +34,9 @@ algebra {j} {j'} (MultMatF weights k innerMatrix)
 algebra {j} {j'} BaseMatF
   = BaseMat {j = j'} {j' = j'}
 
-cataalg : ({m : Nat} -> {n : Nat} -> {j : Nat} -> {mat : Matrix m n j k} -> (MatrixF m n j k (Matrix n j (getNatj' mat) k) -> Matrix n j (getNatj' mat) k)) -> 
+cata : ({m : Nat} -> {n : Nat} -> {j : Nat} -> {mat : Matrix m n j k} -> (MatrixF m n j k (Matrix n j (getNatj' mat) k) -> Matrix n j (getNatj' mat) k)) -> 
           (x : Matrix m n j k) -> 
           Matrix n j (getNatj' x) k
-cataalg alg = c 
-    where c x = alg . map (cataalg alg) . project $ x
+cata alg = c 
+    where c x = alg . map (cata alg) . project $ x
 
