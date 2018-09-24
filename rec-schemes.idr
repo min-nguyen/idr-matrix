@@ -38,12 +38,15 @@ data MatrixF : (m : Nat) -> (n : Nat) -> (j : Nat) -> a  -> Type where
     BaseMatF : {j' : Nat} -> 
                MatrixF m n j a
 
+-- implementation Applicative
+
 implementation Functor (MatrixF m n j) where
     map f (MultMatF {j'} weights next a) = MultMatF weights next (f a)
     map f (BaseMatF {j'=j'}) = BaseMatF {j'=j'}
 
 implementation Steppable (Matrix m n j) (MatrixF m n j) where
-    project (MultMat {j} {j'=j'} w next) = MultMatF {j'=j'} w next next 
+    project (MultMat {j} {j'=j'} w next) 
+        = MultMatF {j'=j'} w next (MultMat {j} {j'=j'} w next) 
     project (BaseMat {j} {j'=j'})  = BaseMatF {j'=j'}
 
 implementation Costeppable (Matrix m n j) (MatrixF m n j) where
